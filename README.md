@@ -223,3 +223,9 @@ For better visual effects, appropriate Rviz display for `Obstacles` messages was
 Author:
 _Mateusz Przybyla_
 
+
+## 5. RPLidar 연동 
+![image](https://github.com/user-attachments/assets/688fa994-7df4-44dd-936f-9c99659eaec8)
+![image](https://github.com/user-attachments/assets/120ad21d-8ab2-4c9d-ad4c-dc925b499a92)
+
+
