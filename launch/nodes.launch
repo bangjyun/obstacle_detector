@@ -1,10 +1,23 @@
 <!-- Reusable launch file for obstacle detection -->
 <launch>
 
+  <node name="rplidarNode" pkg="rplidar_ros" type="rplidarNode" output="screen">
+      <param name="serial_port" type="string" value="/dev/ttyRplidar"/>
+      <param name="serial_baudrate" type="int" value="256000"/>
+      <param name="frame_id" type="string" value="laser"/>
+      <param name="inverted" type="bool" value="false"/>
+      <param name="angle_compensate" type="bool" value="true"/>
+  </node>
+
+  <node name="laser_to_map" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 laser map"/>
+  <node name="map_to_scanner_base" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map robot"/>
+  <node name="scanner_base_to_front_scanner" pkg="tf2_ros" type="static_transform_publisher" args="0.23565 -0.0005 0.06795 0 0 0 robot front_scanner"/>
+  <node name="scanner_base_to_rear_scanner" pkg="tf2_ros" type="static_transform_publisher" args="-0.23832 0.00542 0.09888 3.141592 0 0 robot rear_scanner"/>
+
   <node name="scans_merger" pkg="obstacle_detector" type="scans_merger_node">
     <param name="active"            value="true"/>
-    <param name="publish_scan"      value="false"/>
-    <param name="publish_pcl"       value="true"/>
+    <param name="publish_scan"      value="true"/>
+    <param name="publish_pcl"       value="false"/>
 
     <param name="ranges_num"        value="1000"/>
 
@@ -22,8 +35,8 @@
 
   <node name="obstacle_extractor" pkg="obstacle_detector" type="obstacle_extractor_node">
     <param name="active"               value="true"/>
-    <param name="use_scan"             value="false"/>
-    <param name="use_pcl"              value="true"/>
+    <param name="publish_scan"      value="true"/>
+    <param name="publish_pcl"       value="false"/>
 
     <param name="use_split_and_merge"    value="true"/>
     <param name="circles_from_visibles"  value="true"/>
@@ -68,12 +81,6 @@
 
     <param name="loop_rate"        value="10.0"/>
     <param name="radius_margin"    value="0.25"/>
-
-    <rosparam param="x_vector">[-3.0, -2.5, -2.5, -1.0, -1.0, -0.5, 2.5, 0.2, 2.0, 4.5, 4.0, 1.5]</rosparam>
-    <rosparam param="y_vector">[1.5, 0.0, -2.5, 3.0, 1.0, -4.0, -3.0, -0.9, 0.0, 0.0, 2.0, 2.0]</rosparam>
-    <rosparam param="r_vector">[0.5, 0.5, 1.5, 0.5, 0.7, 0.5, 1.5, 0.7, 0.7, 1.0, 0.5, 1.0]</rosparam>
-    <rosparam param="vx_vector">[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</rosparam>
-    <rosparam param="vy_vector">[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</rosparam>
 
     <param name="frame_id"         value="map"/>
   </node>
