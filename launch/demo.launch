@@ -1,14 +1,6 @@
 <!-- Demonstation of obstacle detector -->
 <launch>
-  <node name="rplidarNode" pkg="rplidar_ros" type="rplidarNode" output="screen">
-      <param name="serial_port" type="string" value="/dev/ttyRplidar"/>
-      <param name="serial_baudrate" type="int" value="256000"/>
-      <param name="frame_id" type="string" value="laser"/>
-      <param name="inverted" type="bool" value="false"/>
-      <param name="angle_compensate" type="bool" value="true"/>
-  </node>
 
-  <node name="laser_to_map" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 laser map"/>
   <node name="map_to_scanner_base" pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 0 0 0 map robot"/>
   <node name="scanner_base_to_front_scanner" pkg="tf2_ros" type="static_transform_publisher" args="0.23565 -0.0005 0.06795 0 0 0 robot front_scanner"/>
   <node name="scanner_base_to_rear_scanner" pkg="tf2_ros" type="static_transform_publisher" args="-0.23832 0.00542 0.09888 3.141592 0 0 robot rear_scanner"/>
